@@ -17,10 +17,10 @@ public class SalonController {
         this.salonService = salonService;
     }
 
-    @GetMapping
-    public List<Salon> getAllSalons() {
-        return salonService.getAllSalons();
-    }
+//    @GetMapping
+//    public List<Salon> getAllSalons() {
+//        return salonService.getAllSalons();
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Salon> getSalonById(@PathVariable Long id) {
@@ -32,5 +32,20 @@ public class SalonController {
     @PostMapping
     public Salon createSalon(@RequestBody Salon salon) {
         return salonService.saveSalon(salon);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Salon> updateSalon(@PathVariable Long id, @RequestBody Salon salon) {
+        return salonService.updateSalon(id, salon)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public List<Salon> getSalons(@RequestParam(required = false) String district) {
+        if (district != null && !district.isBlank()) {
+            return salonService.getSalonsByDistrict(district);
+        }
+        return salonService.getAllSalons();
     }
 }

@@ -43,4 +43,8 @@ public class SalonService {
                     return salonRepository.save(existingSalon);
                 });
     }
+
+    public List<Salon> getSalonsByDistrict(String district) {
+        return salonRepository.findByDistrictIgnoreCase(district);
+    }
 }
