@@ -7,8 +7,10 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/salons")
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
 public class SalonController {
 
     private final SalonService salonService;
