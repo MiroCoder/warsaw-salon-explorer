@@ -1,24 +1,112 @@
 [
   {
-    "name": "Beauty Room",
-    "address": "Marszalkowska 10",
-    "district": "Srodmiescie",
-    "phone": "+48 123 456 789",
-    "website": "https://example.com",
-    "services": "haircut,nails",
-    "priceRange": "100-250 PLN",
-    "rating": 4.7,
-    "reviewCount": 120
+    "name": "U Fryzjerów Andersa",
+    "address": "Andersa 13, 00-159 Warszawa",
+    "district": "Śródmieście",
+    "phone": "+48 500 754 100",
+    "website": "https://ufryzjerow.pl",
+    "services": "haircut, men's haircut, women's haircut, coloring, hair care",
+    "priceRange": "180-320 PLN",
+    "rating": 5.0,
+    "reviewCount": 7640
   },
   {
-    "name": "Mokotow Hair Studio",
-    "address": "Pulawska 20",
-    "district": "Mokotow",
-    "phone": "+48 111 222 333",
-    "website": "https://example.com",
-    "services": "haircut,coloring",
-    "priceRange": "80-220 PLN",
-    "rating": 4.6,
-    "reviewCount": 90
+    "name": "U Fryzjerów Mokotowska",
+    "address": "Mokotowska 40, 00-543 Warszawa",
+    "district": "Śródmieście",
+    "phone": "+48 600 700 382",
+    "website": "https://ufryzjerow.pl",
+    "services": "haircut, men's haircut, women's haircut, coloring, hair care",
+    "priceRange": "180-320 PLN",
+    "rating": 5.0,
+    "reviewCount": 2729
+  },
+  {
+    "name": "1909 FRYZJERZY",
+    "address": "Hoża 42, 00-516 Warszawa",
+    "district": "Śródmieście",
+    "phone": "+48 22 299 84 44",
+    "website": "https://1909fryzjerzy.pl",
+    "services": "women's haircut, men's haircut, styling, coloring, hair care",
+    "priceRange": "165-575 PLN",
+    "rating": 4.9,
+    "reviewCount": 3675
+  },
+  {
+    "name": "Hair Republic Warsaw",
+    "address": "Leszczyńska 6, 00-339 Warszawa",
+    "district": "Śródmieście",
+    "phone": "+48 600 715 301",
+    "website": "https://hairrepublicwarsaw.pl",
+    "services": "haircut, coloring, decolorization, toning, styling",
+    "priceRange": "30-1000 PLN",
+    "rating": 4.9,
+    "reviewCount": 975
+  },
+  {
+    "name": "Studio Urody Koko Loko",
+    "address": "Kijowska 11, 03-743 Warszawa",
+    "district": "Praga-Północ",
+    "phone": "+48 609 257 320",
+    "website": "https://www.facebook.com/kokolokokijowska/",
+    "services": "women's haircut, men's haircut, coloring, henna, hair botox",
+    "priceRange": "35-500 PLN",
+    "rating": 4.9,
+    "reviewCount": 115
+  },
+  {
+    "name": "K&P Studio",
+    "address": "Obrzeżna 1B, 02-691 Warszawa",
+    "district": "Mokotów",
+    "phone": "+48 796 163 885",
+    "website": "https://kpstudiofryzur.pl",
+    "services": "haircut, lashes, eyebrows, manicure, beauty services",
+    "priceRange": "60-265 PLN",
+    "rating": 4.9,
+    "reviewCount": 967
+  },
+  {
+    "name": "Fryzjer Mokotów Aura",
+    "address": "Domaniewska 22A, 02-672 Warszawa",
+    "district": "Mokotów",
+    "phone": "+48 22 647 30 94",
+    "website": "https://aurahair.pl",
+    "services": "haircut, men's haircut, women's haircut, manicure, pedicure",
+    "priceRange": "50-350 PLN",
+    "rating": 4.9,
+    "reviewCount": 755
+  },
+  {
+    "name": "Beauty Salon",
+    "address": "Krucza 46, LU06, 00-509 Warszawa",
+    "district": "Śródmieście",
+    "phone": "+48 505 600 950",
+    "website": "https://booksy.com/pl-pl/37327_beauty-salon_paznokcie_3_warszawa",
+    "services": "manicure, pedicure, eyebrows, lashes, nail styling",
+    "priceRange": "112-299 PLN",
+    "rating": 4.9,
+    "reviewCount": 2935
+  },
+  {
+    "name": "Hair Heaven Ewelina Walczak",
+    "address": "Aleksandra Gieysztora 4/U9, 02-999 Warszawa",
+    "district": "Mokotów",
+    "phone": "+48 536 119 608",
+    "website": "https://booksy.com/pl-pl/301884_hair-heaven-ewelina-walczak_fryzjer_3_warszawa",
+    "services": "hair care, haircut, coloring, trichology consultation",
+    "priceRange": "60-450 PLN",
+    "rating": 5.0,
+    "reviewCount": 4
+  },
+  {
+    "name": "Yasumi MEDESTETIC Warszawa Mokotów",
+    "address": "Domaniewska 39B, 02-672 Warszawa",
+    "district": "Mokotów",
+    "phone": "+48 733 200 002",
+    "website": "https://booksy.com/pl-pl/99527_yasumi-medestetic-warszawa-mokotow_salon-kosmetyczny_3_warszawa",
+    "services": "cosmetology, manicure, pedicure, facial treatments, beauty services",
+    "priceRange": "180-230 PLN",
+    "rating": 5.0,
+    "reviewCount": 1089
   }
 ]
