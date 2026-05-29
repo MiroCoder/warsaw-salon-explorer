@@ -83,11 +83,13 @@ function App() {
       <h1>Warsaw Beauty Salon Explorer</h1>
 
       <input
-        {error && <p className="error">{error}</p>}
         placeholder="Filter by district"
         value={district}
         onChange={(e) => setDistrict(e.target.value)}
       />
+
+       {error && <p className="error">{error}</p>}
+
 
       {selectedSalon && (
         <section className="details">
