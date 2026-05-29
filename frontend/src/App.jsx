@@ -5,6 +5,9 @@ function App() {
   const [salons, setSalons] = useState([])
   const [district, setDistrict] = useState('')
   const [selectedSalon, setSelectedSalon] = useState(null)
+  const [isEditing, setIsEditing] = useState(false)
+  const [editSalon, setEditSalon] = useState(null)
+  const [saveStatus, setSaveStatus] = useState('')
 
   useEffect(() => {
     const url = district.trim()
@@ -15,6 +18,50 @@ function App() {
       .then(response => response.json())
       .then(data => setSalons(data))
   }, [district])
+
+      function handleSelectSalon(salon) {
+        setSelectedSalon(salon)
+        setEditSalon({ ...salon })
+        setIsEditing(false)
+        setSaveStatus('')
+      }
+
+      function handleEditChange(e) {
+        const { name, value } = e.target
+
+        setEditSalon(previous => ({
+          ...previous,
+          [name]: value
+        }))
+      }
+
+      function handleSave(e) {
+        e.preventDefault()
+
+        const salonToSave = {
+          ...editSalon,
+          rating: Number(editSalon.rating),
+          reviewCount: Number(editSalon.reviewCount)
+        }
+
+        fetch(`http://localhost:8080/api/salons/${editSalon.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(salonToSave)
+        })
+          .then(response => response.json())
+          .then(savedSalon => {
+            setSelectedSalon(savedSalon)
+            setEditSalon(savedSalon)
+            setSalons(salons.map(salon =>
+              salon.id === savedSalon.id ? savedSalon : salon
+            ))
+            setSaveStatus('Saved')
+            setIsEditing(false)
+          })
+      }
 
   return (
     <main className="app">
@@ -36,6 +83,26 @@ function App() {
           <p><strong>Services:</strong> {selectedSalon.services}</p>
           <p><strong>Price:</strong> {selectedSalon.priceRange}</p>
           <p><strong>Rating:</strong> {selectedSalon.rating} ({selectedSalon.reviewCount} reviews)</p>
+
+          <button type="button" onClick={() => setIsEditing(!isEditing)}>
+            Admin edit
+          </button>
+
+          {isEditing && editSalon && (
+            <form onSubmit={handleSave}>
+              <h3>Edit salon data</h3>
+
+              <input name="name" value={editSalon.name} onChange={handleEditChange} />
+              <input name="phone" value={editSalon.phone} onChange={handleEditChange} />
+              <input name="services" value={editSalon.services} onChange={handleEditChange} />
+              <input name="priceRange" value={editSalon.priceRange} onChange={handleEditChange} />
+              <input name="rating" value={editSalon.rating} onChange={handleEditChange} />
+              <input name="reviewCount" value={editSalon.reviewCount} onChange={handleEditChange} />
+
+              <button type="submit">Save changes</button>
+              <p>{saveStatus}</p>
+            </form>
+          )}
         </section>
       )}
 
@@ -44,7 +111,7 @@ function App() {
           <div
             className="card"
             key={salon.id}
-            onClick={() => setSelectedSalon(salon)}
+            onClick={() => handleSelectSalon(salon)}
           >
             <h2>{salon.name}</h2>
             <p>{salon.district}</p>
