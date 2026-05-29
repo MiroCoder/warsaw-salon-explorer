@@ -8,15 +8,27 @@ function App() {
   const [isEditing, setIsEditing] = useState(false)
   const [editSalon, setEditSalon] = useState(null)
   const [saveStatus, setSaveStatus] = useState('')
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const url = district.trim()
       ? `http://localhost:8080/api/salons?district=${encodeURIComponent(district)}`
       : 'http://localhost:8080/api/salons'
 
+    setError('')
+
     fetch(url)
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to load salons')
+        }
+        return response.json()
+      })
       .then(data => setSalons(data))
+      .catch(() => {
+        setError('Could not load salons. Please check if backend is running.')
+        setSalons([])
+      })
   }, [district])
 
       function handleSelectSalon(salon) {
@@ -61,6 +73,9 @@ function App() {
             setSaveStatus('Saved')
             setIsEditing(false)
           })
+        .catch(() => {
+          setSaveStatus('Save failed. Please try again.')
+        })
       }
 
   return (
@@ -68,6 +83,7 @@ function App() {
       <h1>Warsaw Beauty Salon Explorer</h1>
 
       <input
+        {error && <p className="error">{error}</p>}
         placeholder="Filter by district"
         value={district}
         onChange={(e) => setDistrict(e.target.value)}

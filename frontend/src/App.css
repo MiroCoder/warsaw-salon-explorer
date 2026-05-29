@@ -222,3 +222,8 @@ input {
   background: #18181d;
   color: white;
 }
+
+.error {
+  color: #ff6b6b;
+  font-weight: bold;
+}
