@@ -9,6 +9,7 @@ function App() {
   const [editSalon, setEditSalon] = useState(null)
   const [saveStatus, setSaveStatus] = useState('')
   const [error, setError] = useState('')
+  const [adminPassword, setAdminPassword] = useState('')
 
   useEffect(() => {
     const url = district.trim()
@@ -59,11 +60,18 @@ function App() {
         fetch(`http://localhost:8080/api/salons/${editSalon.id}`, {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Basic ${btoa(`admin:${adminPassword}`)}`
           },
           body: JSON.stringify(salonToSave)
         })
-          .then(response => response.json())
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Save failed')
+            }
+
+            return response.json()
+          })
           .then(savedSalon => {
             setSelectedSalon(savedSalon)
             setEditSalon(savedSalon)
@@ -73,10 +81,23 @@ function App() {
             setSaveStatus('Saved')
             setIsEditing(false)
           })
-        .catch(() => {
-          setSaveStatus('Save failed. Please try again.')
-        })
+          .catch(() => {
+            setSaveStatus('Save failed. Check admin password.')
+          })
       }
+
+  function handleAdminEditClick() {
+    const password = window.prompt('Admin password')
+
+    if (!password) {
+      setSaveStatus('Admin password required.')
+      return
+    }
+
+    setAdminPassword(password)
+    setIsEditing(true)
+    setSaveStatus('')
+  }
 
   return (
     <main className="app">
@@ -102,7 +123,7 @@ function App() {
           <p><strong>Price:</strong> {selectedSalon.priceRange}</p>
           <p><strong>Rating:</strong> {selectedSalon.rating} ({selectedSalon.reviewCount} reviews)</p>
 
-          <button type="button" onClick={() => setIsEditing(!isEditing)}>
+          <button type="button" onClick={handleAdminEditClick}>
             Admin edit
           </button>
 
