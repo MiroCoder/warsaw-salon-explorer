@@ -1,498 +1,164 @@
-# Beauty of Warsaw — Salon Explorer
-A small full-stack web application for browsing beauty and hair salons in Warsaw.
+# Warsaw Salon Explorer
 
-## Screenshots
-### Listing page
+Full-stack application for browsing and managing beauty and hair salon data in Warsaw.
 
-<img width="1914" height="987" alt="{8750F3AC-31D3-4910-B841-30E3F8AE80A4}" src="https://github.com/user-attachments/assets/01745ca1-3106-4e9d-8f24-43e1ddf89933" />
+Built with **Java 21, Spring Boot, PostgreSQL, Spring Security, React and Vite**.
 
-### Salon details
-<img width="1908" height="946" alt="{327B958A-390F-491A-BF07-1D5A8C1E455F}" src="https://github.com/user-attachments/assets/e277d654-c147-4496-85dd-26cc6edf53a8" />
+## Preview
 
-### Admin edit mode
-<img width="1130" height="644" alt="{B2E0B0B2-BAEA-4BD9-9780-7CA30F9574ED}" src="https://github.com/user-attachments/assets/e856ac86-cafd-49b1-ae14-1109304aeb07" />
+### Listing
+<img width="1914" height="987" alt="Salon listing" src="https://github.com/user-attachments/assets/01745ca1-3106-4e9d-8f24-43e1ddf89933" />
 
-## The application allows a user to:
+### Salon Details
+<img width="1908" height="946" alt="Salon details" src="https://github.com/user-attachments/assets/e277d654-c147-4496-85dd-26cc6edf53a8" />
 
-browse Warsaw beauty / hair salons
+### Admin Edit Mode
+<img width="1130" height="644" alt="Admin edit mode" src="https://github.com/user-attachments/assets/e856ac86-cafd-49b1-ae14-1109304aeb07" />
 
-see key information:
-name
-district
-rating
-price range
-filter salons by district
-click a salon and see full details:
-address
-phone
-website
-services
-rating
-review count
+## Features
 
-There is also an admin edit mode for correcting salon data.
+- Browse 50+ Warsaw salon records
+- Filter salons by district
+- View address, contact details, services, price range, rating and review count
+- React detail views backed by REST endpoints
+- Protected create/update operations with Spring Security
+- PostgreSQL persistence with Spring Data JPA
+- JSON-based initial data loading
+- Frontend loading and error states
+- Service-layer unit tests
+- Environment-based database and admin configuration
 
-Editing is protected with Basic Auth on the backend.
-For this test project the admin user is stored in memory.
+## Tech Stack
 
-## Tech stack
-### Backend
--Java
--Spring Boot
--Spring Web
--Spring Data JPA
--Spring Security
--PostgreSQL
--Maven
+**Backend:** Java 21, Spring Boot, Spring Web, Spring Data JPA, Spring Security  
+**Database:** PostgreSQL  
+**Frontend:** React, Vite, JavaScript, CSS  
+**Testing:** JUnit, Mockito  
+**Build:** Maven
 
-### Frontend
--React
--Vite
--JavaScript
--CSS
+## Architecture
 
-### Data
-JSON seed file
-PostgreSQL database
+```text
+React / Vite
+     ↓ REST
+Controller
+     ↓
+Service
+     ↓
+Repository
+     ↓
+PostgreSQL
+```
 
-The JSON file is used to seed the database when the application starts.
+Backend source:
 
-src/main/resources/data/salons.json
+```text
+src/main/java/com/mirocoder/salonexplorer/
+├── config/
+├── controller/
+├── model/
+├── repository/
+└── service/
+```
 
-## Data source
-The salon dataset was collected from Booksy.
-
-Some fields can be missing or inconsistent between sources, especially phone numbers and websites.
-When a value was not visible in the source, I kept it as "not listed on source" instead of inventing data.
-
-The current dataset contains 50+ Warsaw salons.
-
-## Main features
-### Public user features
-list all salons
-filter salons by district
-view salon details
-see loading / error messages when the backend is unavailable
-
-### Admin features
-open admin edit mode
-edit salon details
-save changes through the backend API
-protected POST and PUT endpoints with Basic Auth
-
-Demo admin credentials:
-
-username: admin
-password: admin123
-
-This is only for the home task demo.
-In a real production app I would use proper user accounts, sessions/JWT, roles, and environment variables for secrets.
-
-## How to run the project
+## Run Locally
 
 ### Requirements
 
-Before running the application, make sure you have installed:
-
 - Java 21
 - Maven
-- Node.js
-- npm
+- Node.js + npm
 - PostgreSQL
 
----
+Clone the repository:
 
-## 1. PostgreSQL setup
+```bash
+git clone https://github.com/MiroCoder/warsaw-salon-explorer.git
+cd warsaw-salon-explorer
+```
 
-Create a local PostgreSQL database.
-
-Open PostgreSQL console and run:
+Create the database:
 
 ```sql
 CREATE DATABASE beauty_of_warsaw;
 ```
 
-The application uses this local database config:
-
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/beauty_of_warsaw
-spring.datasource.username=postgres
-spring.datasource.password=postgres
-```
-
-If your PostgreSQL username or password is different, update this file:
+Optional environment variables:
 
 ```text
-src/main/resources/application.properties
+DB_URL
+DB_USERNAME
+DB_PASSWORD
+ADMIN_USERNAME
+ADMIN_PASSWORD
+JPA_SHOW_SQL
 ```
 
-Example for Windows PowerShell, if `psql` is not added to PATH:
+Development defaults are defined in `application.properties`; credentials can be overridden without changing source code.
 
-```powershell
-& "C:\Program Files\PostgreSQL\18\bin\psql.exe" -U postgres -h localhost
-```
+Run the backend:
 
-Then inside PostgreSQL console:
-
-```sql
-CREATE DATABASE beauty_of_warsaw;
-\q
-```
-
----
-
-## 2. Run backend
-
-From the project root:
-
-```powershell
-cd C:\path\to\Beauty-of-Warsaw
+```bash
 mvn spring-boot:run
 ```
 
-Backend should start on:
+Backend:
 
 ```text
 http://localhost:8080
 ```
 
-You can test if backend works in browser:
+Run the frontend in a second terminal:
 
-```text
-http://localhost:8080/api/salons
-```
-
-Or in PowerShell:
-
-```powershell
-Invoke-RestMethod -Uri "http://localhost:8080/api/salons" -Method Get
-```
-
-Expected result: list of salons in JSON format.
-
----
-
-## 3. Run frontend
-
-Open a second terminal.
-
-Go to the frontend folder:
-
-```powershell
+```bash
 cd frontend
-```
-
-Install frontend dependencies:
-
-```powershell
 npm install
-```
-
-Run frontend:
-
-```powershell
 npm run dev
 ```
 
-Vite will show a local URL, usually:
+Vite will print the local frontend URL.
 
-```text
-http://localhost:5173
-```
+## API
 
-or:
+| Method | Endpoint | Access | Description |
+|---|---|---|---|
+| `GET` | `/api/salons` | Public | List salons; supports district filtering |
+| `GET` | `/api/salons/{id}` | Public | Get one salon |
+| `POST` | `/api/salons` | Admin | Create a salon |
+| `PUT` | `/api/salons/{id}` | Admin | Update a salon |
 
-```text
-http://localhost:5174
-```
-
-Open this URL in the browser.
-
----
-
-## API endpoints
-
-Base backend URL:
-
-```text
-http://localhost:8080
-```
-
----
-
-### Get all salons
-
-```http
-GET /api/salons
-```
-
-PowerShell example:
-
-```powershell
-Invoke-RestMethod -Uri "http://localhost:8080/api/salons" -Method Get
-```
-
-Returns all salons.
-
----
-
-### Filter salons by district
+Example filter:
 
 ```http
 GET /api/salons?district=Mokotów
 ```
 
-PowerShell example:
+## Security
 
-```powershell
-Invoke-RestMethod -Uri "http://localhost:8080/api/salons?district=Mokotów" -Method Get
-```
+Read operations are public. Create and update operations are protected with Spring Security Basic Auth.
 
-Returns salons from selected district.
+For local development, default demo credentials are available through configuration and can be replaced with `ADMIN_USERNAME` and `ADMIN_PASSWORD` environment variables.
 
----
+## Data
 
-### Get one salon by id
-
-```http
-GET /api/salons/{id}
-```
-
-Example:
-
-```http
-GET /api/salons/1
-```
-
-PowerShell example:
-
-```powershell
-Invoke-RestMethod -Uri "http://localhost:8080/api/salons/1" -Method Get
-```
-
-Returns full details for one salon.
-
----
-
-### Create salon
-
-```http
-POST /api/salons
-```
-
-This endpoint is protected by Basic Auth.
-
-Demo admin credentials:
+Initial salon data is loaded from:
 
 ```text
-username: admin
-password: admin123
+src/main/resources/data/salons.json
 ```
 
-PowerShell example:
+The dataset was assembled from publicly visible salon information. Missing fields are kept explicitly missing rather than fabricated.
 
-```powershell
-$pair = "admin:admin123"
-$bytes = [System.Text.Encoding]::ASCII.GetBytes($pair)
-$base64 = [Convert]::ToBase64String($bytes)
+## Tests
 
-$headers = @{
-  Authorization = "Basic $base64"
-}
+Run backend tests with:
 
-$body = @{
-  name = "Example Salon"
-  address = "Example Street 1, Warszawa"
-  district = "Śródmieście"
-  phone = "+48 000 000 000"
-  website = "https://example.com"
-  services = "haircut, coloring"
-  priceRange = "100-300 PLN"
-  rating = 4.8
-  reviewCount = 120
-} | ConvertTo-Json
-
-Invoke-RestMethod `
-  -Uri "http://localhost:8080/api/salons" `
-  -Method Post `
-  -ContentType "application/json" `
-  -Headers $headers `
-  -Body $body
+```bash
+mvn test
 ```
 
----
+The test suite includes service-layer behavior such as retrieval, filtering, updates and persistence interactions.
 
-### Update salon
+## Author
 
-```http
-PUT /api/salons/{id}
-```
-
-This endpoint is protected by Basic Auth.
-
-Example:
-
-```http
-PUT /api/salons/1
-```
-
-PowerShell example:
-
-```powershell
-$pair = "admin:admin123"
-$bytes = [System.Text.Encoding]::ASCII.GetBytes($pair)
-$base64 = [Convert]::ToBase64String($bytes)
-
-$headers = @{
-  Authorization = "Basic $base64"
-}
-
-$body = @{
-  name = "Updated Salon Name"
-  address = "Updated Address, Warszawa"
-  district = "Mokotów"
-  phone = "+48 111 222 333"
-  website = "https://example.com"
-  services = "haircut, manicure, coloring"
-  priceRange = "120-350 PLN"
-  rating = 4.9
-  reviewCount = 150
-} | ConvertTo-Json
-
-Invoke-RestMethod `
-  -Uri "http://localhost:8080/api/salons/1" `
-  -Method Put `
-  -ContentType "application/json" `
-  -Headers $headers `
-  -Body $body
-```
-
----
-
-### Check that update is protected
-
-This request should fail with `401 Unauthorized`:
-
-```powershell
-Invoke-WebRequest `
-  -UseBasicParsing `
-  -Uri "http://localhost:8080/api/salons/1" `
-  -Method Put `
-  -ContentType "application/json" `
-  -Body "{}"
-```
-
-If it returns `401 Unauthorized`, backend protection works correctly.
-Protected by Basic Auth.
-
-## Project structure
-
-```text
-src/main/java/com/mirocoder/salonexplorer
-├── config
-│   ├── DataLoader.java
-│   └── SecurityConfig.java
-├── controller
-│   └── SalonController.java
-├── model
-│   └── Salon.java
-├── repository
-│   └── SalonRepository.java
-└── service
-    └── SalonService.java
-
-src/main/resources
-├── application.properties
-└── data
-    └── salons.json
-
-frontend/src
-├── App.jsx
-├── App.css
-└── index.css
-```
-
-## Backend architecture
-
-### Backend layered structure
-
-```text
-Controller → Service → Repository → Database
-```
-
-### Controller
-
-Handles HTTP requests and responses.
-
-Example:
-
-```http
-GET /api/salons
-PUT /api/salons/{id}
-```
-
-### Service
-
-Contains application logic.
-
-### Repository
-
-Communicates with the database through Spring Data JPA.
-
-### Model
-
-Represents salon data as a JPA entity.
-
-## Frontend architecture
-
-The frontend is intentionally simple.
-
-It uses:
-
-* React state for salons, selected salon, filter text, edit mode, and errors
-* fetch() to call the backend API
-* conditional rendering for detail view and admin edit form
-
-### Main frontend flow
-
-```text
-React page opens
-→ fetch salons from backend
-→ render salon cards
-→ user clicks salon
-→ details are shown
-→ admin can edit and save through PUT request
-```
-
-## Error handling
-
-The frontend shows an error message when:
-
-* salons cannot be loaded
-* backend is not running
-* saving changes fails
-* wrong admin password is used
-
-## Security note
-
-For the task, I used Spring Security with Basic Auth.
-
-Current behavior:
-
-* GET /api/salons is public
-* GET /api/salons/{id} is public
-* POST /api/salons requires admin credentials
-* PUT /api/salons/{id} requires admin credentials
-
-## Implemented
-
-* backend REST API
-* PostgreSQL database
-* JSON data loader
-* 50+ real salon records
-* React frontend
-* district filter
-* salon detail view
-* admin edit mode
-* protected edit API
-* frontend error handling
+[Miroslav Nekhaev / MiroCoder](https://github.com/MiroCoder)
