@@ -2,11 +2,18 @@ package com.mirocoder.salonexplorer.controller;
 
 import com.mirocoder.salonexplorer.model.Salon;
 import com.mirocoder.salonexplorer.service.SalonService;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/api/salons")
@@ -19,10 +26,13 @@ public class SalonController {
         this.salonService = salonService;
     }
 
-//    @GetMapping
-//    public List<Salon> getAllSalons() {
-//        return salonService.getAllSalons();
-//    }
+    @GetMapping
+    public List<Salon> getSalons(@RequestParam(required = false) String district) {
+        if (district != null && !district.isBlank()) {
+            return salonService.getSalonsByDistrict(district);
+        }
+        return salonService.getAllSalons();
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Salon> getSalonById(@PathVariable Long id) {
@@ -41,13 +51,5 @@ public class SalonController {
         return salonService.updateSalon(id, salon)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping
-    public List<Salon> getSalons(@RequestParam(required = false) String district) {
-        if (district != null && !district.isBlank()) {
-            return salonService.getSalonsByDistrict(district);
-        }
-        return salonService.getAllSalons();
     }
 }
